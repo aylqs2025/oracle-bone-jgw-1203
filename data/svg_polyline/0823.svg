@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.00 35.00">
-<path d="M 13 4 L 5 10 L 4 29" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 13 4 L 22 12 L 22 31" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 12 11 L 17 15 L 18 23 L 16 29 L 8 31" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 14 13 L 13 18 L 7 20" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 12 18 L 16 25" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 8 22 L 8 26 L 8 28 L 13 27 L 12 21" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M 9 24 L 12 24" fill="none" stroke="#111" stroke-width="1.23" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.00 45.00">
+<path d="M 13 6 L 11 15 L 9 19 L 12 23 L 14 27 L 13 32 L 8 39" fill="none" stroke="#111" stroke-width="1.58" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 11 15 L 13 16 L 14 18 L 15 20 L 12 23" fill="none" stroke="#111" stroke-width="1.58" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 10 5 L 5 17 L 6 21 L 9 25 L 9 28 L 4 37" fill="none" stroke="#111" stroke-width="1.58" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 20 4 L 17 12 L 19 19 L 19 23 L 18 34 L 14 41" fill="none" stroke="#111" stroke-width="1.58" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

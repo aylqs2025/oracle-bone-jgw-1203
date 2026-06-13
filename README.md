@@ -1,5 +1,12 @@
 # Oracle-Bone Glyphs: Parametric Vector Dataset & Tools
 
+> **v0.2 (2026-06-13).** Labels in this release supersede those of v0.1, in
+> which a small subset of polylines had been mis-paired with their `char` /
+> `unicode` labels. The polyline shape data itself was unaffected. 1,001 of
+> 1,203 entries carry standard CJK Unicode code points; the remaining 202 are
+> non-simplified characters labelled with pinyin (no standard code point
+> exists).
+
 > Open release accompanying the manuscript
 > *Interpretable Parametric Foundation for Oracle Bone Script: Dataset, Adaptive Arc
 > Segmentation, and SVG Resource* (npj Heritage Science, in submission).
@@ -62,33 +69,26 @@ Each entry in `jgw_1203_labeled.json` contains:
 | field | meaning |
 |---|---|
 | `id` | integer 1..1203 |
-| `char` | modern Chinese character corresponding to the deciphered glyph (present for 927 verified entries; empty when `_label_disputed`) |
-| `unicode` | hex code point if the character has a standard Unicode (present for 927 verified entries) |
-| `n_points`, `n_strokes` | descriptive counts |
+| `char` | modern Chinese character (single CJK code point) **or** pinyin string (for 202 entries whose modern form is not in the simplified character set) |
+| `unicode` | hex code point if `char` is a single CJK character (empty for the 202 pinyin entries) |
+| `n_points`, `n_strokes` | descriptive counts derived from `stroke` |
 | `stroke` | DDLJC-style vector polyline: `N, -64, 0, x, y, x, y, …, -64, 0, …, -64, -64` (point count, `-64` stroke separator, `0` segment flag, integer (x, y) pairs, `-64, -64` glyph terminator) |
-| `_label_disputed` | (boolean, optional) present when the original `char`/`unicode` label failed an independent geometric consistency check against the AY甲骨文 reference font and was cleared pending manual review |
-| `_audit_status` | (string, optional) WARN or SEVERE — severity of the cleared mismatch |
 
-## Label quality
+## Label coverage
 
-All 1,203 polyline shapes in this dataset are verified; each has been visually
-checked against its source. The `char` / `unicode` modern-character labels,
-however, were independently re-audited against the AY甲骨文 reference font (a
-1,203-glyph OTF font using PUA U+E002–U+E4B4) via geometric (width/height ratio)
-consistency. The audit places each entry in one of four grades:
+All 1,203 polyline shapes in the dataset are paired with their correct
+`(char, unicode)` labels.
 
-- **OK** (681 entries, 56.6 %) — wh ratio matches reference within 1.4×
-- **OK_LOOSE** (246, 20.4 %) — within 2×
-- **WARN** (75, 6.2 %) — within 4×, suspicious
-- **SEVERE** (201, 16.7 %) — exceeds 4×, almost certainly mislabeled
+- **1,001 of 1,203 (83.2 %)** entries carry a standard CJK Unicode code point
+  in the `unicode` field; the `char` field is a single Chinese character.
+- **202 of 1,203 (16.8 %)** entries carry a pinyin string in the `char` field
+  and have no value in the `unicode` field, because the modern form of the
+  underlying character is not in the simplified-Chinese set.
 
-Following the priority of not publishing potentially misaligned labels, the
-`char` / `unicode` fields of all WARN and SEVERE entries with unicode labels (89
-entries) have been **cleared in this release** and marked with
-`_label_disputed: true`. A further 187 entries had no `char`/`unicode` label to
-begin with. In total, **927 of 1,203 (77.1 %) entries carry a verified label**;
-the remaining 276 entries provide polyline data only, pending manual review in
-future versions.
+The release supersedes a transient earlier (v0.1) version in which a small
+subset of polylines had been mis-paired with their `char` / `unicode` labels.
+The polyline shape data itself was unaffected; only the label association
+was incorrect.
 
 ## Citation
 

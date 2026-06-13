@@ -114,14 +114,17 @@ def mk(r):
     return sum(ks)/len(ks) if ks else 0
 cands = sorted([r for r in v2 if 6 <= r['n_subseg'] <= 16],
                key=lambda r: -mk(r))[:8]
-picks = [by_id[r['id']] for r in cands]
+picks_all = [by_id[r['id']] for r in cands]
+# 去掉第 4 行和最后一行 (索引 3 和 7), 余 6 字
+picks = [d for i, d in enumerate(picks_all) if i not in (3, 7)]
 
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
 fp = fm.FontProperties(fname='C:/Windows/Fonts/simhei.ttf')
 
-fig, axes = plt.subplots(8, 2, figsize=(6.5, 18))
+N = len(picks)
+fig, axes = plt.subplots(N, 2, figsize=(7.5, 2.1 * N + 1.6))
 cols = ['Polyline-faithful\n(svg_polyline; visual fidelity)',
         'Parametric (default v2)\n(svg_parametric; analytical canonical)']
 for i, d in enumerate(picks):
@@ -134,17 +137,19 @@ for i, d in enumerate(picks):
                     '-', lw=2, color='#111')
         ax.set_aspect('equal'); ax.invert_yaxis(); ax.axis('off')
         if i == 0:
-            ax.set_title(cols[j], fontsize=10)
-    axes[i, 0].set_ylabel(d['char'], rotation=0, labelpad=20,
-                          fontproperties=fp, fontsize=14)
-fig.suptitle('Two release flavors on the same glyph (8 high-curvature exemplars):\n'
-             'polyline-faithful (left) preserves visual carving fidelity; '
-             'parametric (right) is the analytical canonical form\n'
-             '— visible differences on high-curvature strokes are a design'
-             ' consequence, not a bug.',
-             fontsize=10)
-plt.tight_layout()
+            ax.set_title(cols[j], fontsize=13)
+    label = d.get('char') or f"id={d['id']}"   # 标签 disputed 时显示 id
+    axes[i, 0].set_ylabel(label, rotation=0, labelpad=28,
+                          fontproperties=fp, fontsize=18, va='center')
+fig.suptitle(
+    'Two release flavors on identical high-curvature glyphs.\n'
+    'Polyline-faithful (left) preserves visual carving fidelity; '
+    'parametric (right) is the analytical canonical form.\n'
+    'Visible differences are a design consequence of the primitive class '
+    '(§4.1), not a defect.',
+    fontsize=12.5, y=0.995)
+plt.tight_layout(rect=[0.04, 0, 1, 0.94])
 plt.savefig(OUT/'figs_final'/'fig06_styles.png',
             dpi=200, bbox_inches='tight')
 plt.close()
-print('对照图: %s' % (OUT/'figs_final'/'fig06_styles.png'))
+print('对照图: %s (%d 字)' % (OUT/'figs_final'/'fig06_styles.png', N))
