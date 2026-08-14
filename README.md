@@ -1,20 +1,49 @@
 # Oracle-Bone Glyphs: Parametric Vector Dataset & Tools
 
-> **v0.2 (2026-06-13).** Labels in this release supersede those of v0.1, in
-> which a small subset of polylines had been mis-paired with their `char` /
-> `unicode` labels. The polyline shape data itself was unaffected. 1,001 of
-> 1,203 entries carry standard CJK Unicode code points; the remaining 202 are
-> non-simplified characters labelled with pinyin (no standard code point
-> exists).
+> **v0.3 (2026-08-10).** Label and metadata release; **polyline shape data is
+> unchanged from v0.2**. Pinyin no longer serves as a character identity: of the
+> 202 entries that carried a pinyin string in v0.2, **200 now carry their exact
+> modern character and Unicode code point**, and 2 are recorded as unidentified.
+> `id` is renamed `glyph_id`. A per-entry `provenance_manifest.csv` is added. See
+> [CHANGELOG.md](CHANGELOG.md) for the full list of changes and for the v0.2 and
+> v0.1 history.
+>
+> **Encoding.** Files are UTF-8 and include CJK Extension A characters and one
+> supplementary-plane character (𠕋 U+2054B). Read as UTF-8 and index by code
+> point, not by UTF-16 code unit.
 
 > Open release accompanying the manuscript
-> *Interpretable Parametric Foundation for Oracle Bone Script: Dataset, Adaptive Arc
-> Segmentation, and SVG Resource* (npj Heritage Science, in submission).
+> *An Interpretable Parametric Representation and Open Dataset for Oracle Bone Script: Adaptive Arc Segmentation and SVG Resource*
+> (npj Heritage Science, 2026; accepted).
 
-This repository releases **1,203 deciphered oracle bone glyphs** in an interpretable
+This repository releases **1,203 oracle bone glyph forms** in an interpretable
 parametric vector form (per-sub-segment direction α, magnitude η, signed curvature κ),
 together with the fitting / analysis pipeline and a derived resolution-independent SVG
 glyph set.
+
+## Identity and label fields
+
+`glyph_id` is the sole identifier of a glyph form. It is the entry number of the
+source library, whose ordering follows *Shuowen Jiezi*.
+
+| Field | Meaning |
+|---|---|
+| `glyph_id` | stable unique identity of the glyph form |
+| `modern_char` | modern character assigned to the entry (empty if unidentified) |
+| `unicode` | code point of `modern_char`, where that character is encoded |
+| `char_form` | `in_simplified_set` / `traditional_or_variant` / `undetermined` |
+| `encoding_status` | `unicode_encoded` / `not_encoded` |
+| `pinyin` | modern Mandarin reading — an **auxiliary search field only** |
+
+Two properties are worth stating explicitly:
+
+- **`modern_char` is not a unique key.** 33 modern characters in this release are each
+  assigned to more than one entry — entries 39 and 283 are both 萑, for instance. This
+  reflects documented paleographic differentiation, not duplicate labelling. Resolve
+  identity through `glyph_id`.
+- **Unicode encoding status refers to the modern character, not to the oracle-bone
+  form.** Oracle bone script is not itself encoded in Unicode; none of the 1,203
+  released forms has a code point of its own.
 
 ## What's inside
 
@@ -25,12 +54,17 @@ release/
 ├── LICENSE-DATA             CC-BY 4.0 (covers /data and /figs)
 ├── requirements.txt
 ├── data/
-│   ├── jgw_1203_labeled.json        1,203 glyphs: id, char, unicode, strokes (polyline)
+│   ├── jgw_1203_labeled.json        1,203 glyphs: glyph_id, modern_char, unicode,
+│   │                                 char_form, encoding_status, pinyin, strokes
 │   ├── jgw_1203_labeled.csv         flattened CSV view
+│   ├── provenance_manifest.csv      per-entry provenance: identity_confidence,
+│   │                                 identity_note, composition_note,
+│   │                                 n_source_variants, previous_label_v0_2
+│   ├── jgw_1203_labeled_v0_2.*      superseded v0.2 labels, kept for reference
 │   ├── svg_polyline/                1,203 SVGs: straight-segment polyline (visual fidelity)
-│   ├── svg_polyline_manifest.csv    id, char, unicode, svg filename
+│   ├── svg_polyline_manifest.csv    glyph_id, modern_char, unicode, char_form, svg
 │   ├── svg_parametric/              1,203 SVGs: parametric reconstruction (analytical canonical)
-│   └── svg_parametric_manifest.csv  id, char, unicode, svg filename
+│   └── svg_parametric_manifest.csv  glyph_id, modern_char, unicode, char_form, svg
 ├── src/
 │   ├── stroke_param_fit_min.py     closed-form (α, η, κ); single-arc reconstruction
 │   ├── stroke_param_fit_v2.py      error-driven adaptive arc segmentation (main method)
@@ -94,9 +128,8 @@ was incorrect.
 
 If you use this resource, please cite the accompanying manuscript:
 
-> [authors]. *Interpretable Parametric Foundation for Oracle Bone Script: Dataset,
-> Adaptive Arc Segmentation, and SVG Resource.* npj Heritage Science, 2026
-> (in submission).
+> Qing-sheng Li and Yu-lin Bian. *An Interpretable Parametric Representation and Open Dataset for Oracle Bone Script: Adaptive Arc Segmentation and SVG Resource.*
+> npj Heritage Science (2026). Accepted.
 
 ## License
 
@@ -115,4 +148,4 @@ deferred to subsequent work.
 
 ## Contact
 
-[corresponding author email — TO FILL]
+aylqs@163.com
